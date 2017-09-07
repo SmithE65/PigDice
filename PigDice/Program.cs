@@ -8,7 +8,9 @@ namespace PigDice
 {
     class Program
     {
-        static Random rnd = new Random();
+        static Random rnd = new Random();       // Random object for our dice rolls
+
+        // Entry point into the program
         static void Main(string[] args)
         {
             new Program().Run();
@@ -26,7 +28,7 @@ namespace PigDice
             Console.WriteLine(s);
         }
 
-        // Prints a number in ordinal form
+        // Prints a number in ordinal form (WIP)
         void PrintOrdinal(int i)
         {
             Console.Write(i.ToString());
@@ -56,20 +58,21 @@ namespace PigDice
         // Plays a round of Pig Dice and returns the score
         int PigDice()
         {
-            int DieRoll = 2;
-            int RollNumber = 0;
-            int Score = 0;
+            int DieRoll = 2;    // Stores our current roll
+            int RollNumber = 0; // How many rolls in this game
+            int Score = 0;      // Total score for this game
 
-            while (true)
+            while (true)        // Go forever, 1 roll per loop
             {
-                DieRoll = RollDie();
-                if (DieRoll == 1)
-                {
+                DieRoll = RollDie();    // Roll the die
+                if (DieRoll == 1)       // If we roll a 1 it's game over
+                {   // Game over, inform the user and break from the loop
                     PrintLine("Oops! Rolled a 1.\nGAME OVER.");
                     break;
                 }
-                RollNumber++;
+                RollNumber++;           // +1 successful roll
 
+                // Print ordinal of our roll number and our current score
                 PrintOrdinal(RollNumber);
                 Print(" roll: ");
                 Print(DieRoll.ToString());
@@ -78,34 +81,38 @@ namespace PigDice
                 PrintLine(Score.ToString());
             }
 
+            // Game is over, return our score
             return Score;
         }
 
         // Application logic
         void Run()
         {
-            int GameNumber = 1;
-            int Score = 0;
-            int TopScore = 0;
-            ConsoleKeyInfo PressedKey = new ConsoleKeyInfo();
+            int GameNumber = 1;     // Number of games played
+            int Score = 0;          // Score of the last game played
+            int TopScore = 0;       // Top score for this instance of the program
+            ConsoleKeyInfo PressedKey = new ConsoleKeyInfo();   // Place to store a single 
 
+            // Send a greeting and wait until a key is pressed
             PrintLine("Welcome to Pig Dice!\nPress any key to continue.");
-            Console.ReadKey();
+            Console.ReadKey(true);
 
-            while (true)
+            while (true)                            // Go until I say, stop
             {
-                Console.Clear();
-                Print("Game number ");
+                Console.Clear();                    // Clear the screen
+                Print("Game number ");              // Announce current game number
                 PrintLine(GameNumber++.ToString());
-                Score = PigDice();
+                Score = PigDice();                  // Play a full game of Pig Dice
 
-                if (Score > TopScore)
-                    TopScore = Score;
-                Print("Current Top Score: ");
+                if (Score > TopScore)               // Do we have a new top score?
+                    TopScore = Score;               // Yes, save it
+                Print("Current Top Score: ");       // And then print it
                 PrintLine(TopScore.ToString());
+
+                // Wait for user input
                 PrintLine("Press any key to continue or \'q\' to quit.");
                 PressedKey = Console.ReadKey(true);
-                if (PressedKey.KeyChar == 'q')
+                if (PressedKey.KeyChar == 'q')      // If we get a q, quit, otherwise play again
                     break;
             }
         }
