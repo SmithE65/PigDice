@@ -32,6 +32,10 @@ namespace PigDice
         void PrintOrdinal(int i)
         {
             Console.Write(i.ToString());
+
+            if (i > 13)         // If we're out of the teens, we just need the last digit
+                i = i % 10;
+
             switch (i)
             {
                 case 1:
@@ -71,13 +75,13 @@ namespace PigDice
                     break;
                 }
                 RollNumber++;           // +1 successful roll
+                Score += DieRoll;       // Add the roll to our score
 
                 // Print ordinal of our roll number and our current score
                 PrintOrdinal(RollNumber);
                 Print(" roll: ");
                 Print(DieRoll.ToString());
                 Print(" Current Score: ");
-                Score += DieRoll;
                 PrintLine(Score.ToString());
             }
 
